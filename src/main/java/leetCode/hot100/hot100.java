@@ -516,6 +516,62 @@ public class hot100 {
     }
 
 
+    private List<List<Integer>> resList = new ArrayList<List<Integer>>();
+
+    /**
+     * 102 二叉树的层序遍历
+     *
+     * @param root
+     * @return
+     */
+    public List<List<Integer>> levelOrder(TreeNode root) {
+        checkFun(root,0);
+        return resList;
+    }
+
+    public void checkFun(TreeNode node ,int deep){
+        if (node == null){
+            return;
+        }
+
+        deep++;
+        if (resList.size()<deep){
+            List<Integer> list = new ArrayList<>();
+            list.add(node.val);
+            resList.add(list);
+        }else {
+            resList.get(deep).add(node.val);
+        }
+
+        checkFun(node.left,deep);
+        checkFun(node.right,deep);
+    }
+
+
+    /**
+     * 108 将有序数组转换为二叉搜索树
+     * @param nums
+     * @return
+     */
+    public TreeNode sortedArrayToBST(int[] nums) {
+        return sortedArrayToTree(nums,0,nums.length-1);
+    }
+
+    public TreeNode sortedArrayToTree(int[] nums,int left,int right){
+        if (left>right){
+            return null;
+        }
+
+        int mid=(left+right)>>1;
+        TreeNode node = new TreeNode(nums[mid]);
+        node.left=sortedArrayToTree(nums,left,mid-1);
+        node.right=sortedArrayToTree(nums,mid+1,right);
+
+        return node;
+    }
+
+
+
     @Test
     public void test() {
         String[] strings = {"eat", "tea", "tan", "ate", "nat", "bat"};
