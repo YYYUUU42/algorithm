@@ -52,12 +52,12 @@ public class Main {
 
         for (int i = 0; i < word1.length(); i++) {
             char ch = word1.charAt(i);
-            arr1[ch-'a']++;
+            arr1[ch - 'a']++;
         }
 
         for (int i = 0; i < word2.length(); i++) {
             char ch = word2.charAt(i);
-            arr2[ch-'a']++;
+            arr2[ch - 'a']++;
         }
 
         for (int i = 0; i < 26; i++) {
@@ -69,12 +69,13 @@ public class Main {
         Arrays.sort(arr1);
         Arrays.sort(arr2);
 
-        return Arrays.equals(arr1,arr2);
+        return Arrays.equals(arr1, arr2);
     }
 
 
     /**
-     *2661 找出叠涂元素
+     * 2661 找出叠涂元素
+     *
      * @param arr
      * @param mat
      * @return
@@ -103,6 +104,38 @@ public class Main {
         }
         return -1;
     }
+
+    /**
+     * 1094
+     *
+     * @param trips
+     * @param capacity
+     * @return
+     */
+    public boolean carPooling(int[][] trips, int capacity) {
+        int[] arr = new int[1100];
+        for (int[] trip : trips) {
+            int num = trip[0];
+            int form = trip[1];
+            int to = trip[2];
+
+            arr[form+1]+=num;
+            arr[to+1]-=num;
+        }
+
+        for (int i = 1; i <= 1000; i++) {
+            arr[i]+=arr[i-1];
+            if (arr[i]>capacity){
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+
+
+
 
     @Test
     public void test() {

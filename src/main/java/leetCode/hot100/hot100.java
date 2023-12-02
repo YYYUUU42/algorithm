@@ -525,51 +525,110 @@ public class hot100 {
      * @return
      */
     public List<List<Integer>> levelOrder(TreeNode root) {
-        checkFun(root,0);
+        checkFun(root, 0);
         return resList;
     }
 
-    public void checkFun(TreeNode node ,int deep){
-        if (node == null){
+    public void checkFun(TreeNode node, int deep) {
+        if (node == null) {
             return;
         }
 
         deep++;
-        if (resList.size()<deep){
+        if (resList.size() < deep) {
             List<Integer> list = new ArrayList<>();
             list.add(node.val);
             resList.add(list);
-        }else {
+        } else {
             resList.get(deep).add(node.val);
         }
 
-        checkFun(node.left,deep);
-        checkFun(node.right,deep);
+        checkFun(node.left, deep);
+        checkFun(node.right, deep);
     }
 
 
     /**
      * 108 将有序数组转换为二叉搜索树
+     *
      * @param nums
      * @return
      */
     public TreeNode sortedArrayToBST(int[] nums) {
-        return sortedArrayToTree(nums,0,nums.length-1);
+        return sortedArrayToTree(nums, 0, nums.length - 1);
     }
 
-    public TreeNode sortedArrayToTree(int[] nums,int left,int right){
-        if (left>right){
+    public TreeNode sortedArrayToTree(int[] nums, int left, int right) {
+        if (left > right) {
             return null;
         }
 
-        int mid=(left+right)>>1;
+        int mid = (left + right) >> 1;
         TreeNode node = new TreeNode(nums[mid]);
-        node.left=sortedArrayToTree(nums,left,mid-1);
-        node.right=sortedArrayToTree(nums,mid+1,right);
+        node.left = sortedArrayToTree(nums, left, mid - 1);
+        node.right = sortedArrayToTree(nums, mid + 1, right);
 
         return node;
     }
 
+
+    /**
+     * 98 验证二叉树
+     *
+     * @param root
+     * @return
+     */
+    public boolean isValidBST(TreeNode root) {
+        return isValidBST(root, Long.MIN_VALUE, Long.MAX_VALUE);
+    }
+
+    public boolean isValidBST(TreeNode node, Long min, Long max) {
+        if (node == null) {
+            return true;
+        } else if (node.val <= min || node.val >= max) {
+            return false;
+        } else {
+            return isValidBST(node.left, min, (long) node.val) && isValidBST(node.right, (long) node.val, max);
+        }
+    }
+
+    /**
+     * 437 路径总和3
+     * @param root
+     * @param targetSum
+     * @return
+     */
+    int count=0;
+    int target=0;
+
+    public int pathSum(TreeNode root, int targetSum) {
+        target=targetSum;
+        dfs1(root);
+        return count;
+    }
+
+    public void dfs1(TreeNode node){
+        if (node==null){
+            return;
+        }
+
+        dfs2(node,node.val);
+        dfs1(node.left);
+        dfs1(node.right);
+    }
+
+    public void dfs2(TreeNode node,long val){
+        if (val==target){
+            count++;
+        }
+
+        if (node.left!=null){
+            dfs2(node.left,node.left.val+val);
+        }
+        if (node.right!=null){
+            dfs2(node.right,node.right.val+val);
+        }
+    }
 
 
     @Test
