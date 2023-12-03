@@ -119,13 +119,13 @@ public class Main {
             int form = trip[1];
             int to = trip[2];
 
-            arr[form+1]+=num;
-            arr[to+1]-=num;
+            arr[form + 1] += num;
+            arr[to + 1] -= num;
         }
 
         for (int i = 1; i <= 1000; i++) {
-            arr[i]+=arr[i-1];
-            if (arr[i]>capacity){
+            arr[i] += arr[i - 1];
+            if (arr[i] > capacity) {
                 return false;
             }
         }
@@ -133,8 +133,39 @@ public class Main {
         return true;
     }
 
+    /**
+     * 1423 可获取的最大点数
+     *
+     * @param cardPoints
+     * @param k
+     * @return
+     */
+    public int maxScore(int[] cardPoints, int k) {
+        //窗口当前的值
+        int cur = 0;
+        //全部的总和
+        int sum = 0;
+        //滑动窗口的长度
+        int len = cardPoints.length - k;
 
+        for (int i = 0; i < cardPoints.length; i++) {
+            sum += cardPoints[i];
+        }
 
+        for (int i = 0; i < len; i++) {
+            cur += cardPoints[i];
+        }
+
+        //窗口之间的和最小
+        int max = cur;
+
+        for (int i = len; i < cardPoints.length; i++) {
+            cur = cur + cardPoints[i] - cardPoints[i - len];
+            max=Math.min(cur,max);
+        }
+
+        return sum-max;
+    }
 
 
     @Test
