@@ -631,6 +631,23 @@ public class hot100 {
     }
 
 
+    /**
+     * 121 买卖股票的最佳时机
+     * @param prices
+     * @return
+     */
+    public int maxProfit(int[] prices) {
+        int[] dp = new int[prices.length+1];
+        dp[0]=prices[0];
+
+        for (int i = 1; i <= prices.length; i++) {
+            dp[i]=Math.max(dp[i-1]+prices[i],dp[i-1]);
+        }
+
+        return dp[prices.length];
+    }
+
+
     @Test
     public void test() {
         String[] strings = {"eat", "tea", "tan", "ate", "nat", "bat"};

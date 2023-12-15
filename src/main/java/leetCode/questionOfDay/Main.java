@@ -161,15 +161,122 @@ public class Main {
 
         for (int i = len; i < cardPoints.length; i++) {
             cur = cur + cardPoints[i] - cardPoints[i - len];
-            max=Math.min(cur,max);
+            max = Math.min(cur, max);
         }
 
-        return sum-max;
+        return sum - max;
     }
 
+    /**
+     * 1038
+     *
+     * @param rootx
+     * @return
+     */
+    int sum = 0;
+
+    public TreeNode bstToGst(TreeNode root) {
+        bst1(root);
+        bst2(root);
+        return root;
+    }
+
+    public void bst1(TreeNode node) {
+        if (node == null) {
+            return;
+        }
+
+        bst1(node.left);
+        sum += node.val;
+        bst1(node.right);
+    }
+
+    public void bst2(TreeNode node) {
+        if (node == null) {
+            return;
+        }
+
+        bst2(node.left);
+        int temp = node.val;
+        node.val = sum;
+        sum -= temp;
+        bst2(node.right);
+    }
+
+    public int nextBeautifulNumber(int n) {
+        for (int i = n + 1; i <= 1224444; ++i) {
+            if (isBalance(i)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    private boolean isBalance(int x) {
+        int[] count = new int[10];
+        while (x > 0) {
+            count[x % 10]++;
+            x /= 10;
+        }
+        for (int d = 0; d < 10; ++d) {
+            if (count[d] > 0 && count[d] != d) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+
+    public String makeSmallestPalindrome(String s) {
+        char[] arr = s.toCharArray();
+        int left = 0, right = arr.length - 1;
+        while (left < right) {
+            if (arr[left] != arr[right]) {
+                arr[left] = arr[right] = (char) Math.min(arr[left], arr[right]);
+            }
+            ++left;
+            --right;
+        }
+        return new String(arr);
+    }
 
     @Test
     public void test() {
         closeStrings("abc", "bca");
+    }
+}
+
+class ListNode {
+    int val;
+    ListNode next;
+
+    ListNode(int x) {
+        val = x;
+        next = null;
+    }
+
+    ListNode(int val, ListNode next) {
+        this.val = val;
+        this.next = next;
+    }
+
+}
+
+class TreeNode {
+    int val;
+    TreeNode left;
+    TreeNode right;
+
+    TreeNode() {
+    }
+
+    TreeNode(int val) {
+        this.val = val;
+    }
+
+    TreeNode(int val, TreeNode left, TreeNode right) {
+        this.val = val;
+        this.left = left;
+        this.right = right;
     }
 }
