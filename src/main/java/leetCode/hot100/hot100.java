@@ -648,6 +648,7 @@ public class hot100 {
     }
 
 
+
     @Test
     public void test() {
         String[] strings = {"eat", "tea", "tan", "ate", "nat", "bat"};

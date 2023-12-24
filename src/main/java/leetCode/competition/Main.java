@@ -183,6 +183,7 @@ public class Main {
             y = y / 2;
         }
 
+
         return res;
     }
 
@@ -233,7 +234,7 @@ public class Main {
                 }
                 j++;
             }
-            if (count>=k){
+            if (count >= k) {
                 res += nums.length - j + 1;
             }
             if (nums[i] == max) {
@@ -244,11 +245,58 @@ public class Main {
         return res;
     }
 
+    public int[] findMissingAndRepeatedValues(int[][] grid) {
+        int n = grid.length;
+        int[] arr = new int[n * n + 1];
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[0].length; j++) {
+                int num = grid[i][j];
+                arr[num]++;
+            }
+        }
+
+        int[] res = new int[2];
+
+        for (int i = 1; i < arr.length; i++) {
+            if (arr[i] == 2) {
+                res[0] = i;
+            } else if (arr[i] == 0) {
+                res[1] = i;
+            }
+        }
+
+        return res;
+    }
+
+    public int[][] divideArray(int[] nums, int k) {
+        Arrays.sort(nums);
+        int n = nums.length / 3;
+        int[][] arr = new int[n][3];
+        int count1=0;
+
+        for (int i = 0; i < n; i++) {
+            int[] ints = new int[3];
+            for (int j = 0; j < 3; j++) {
+                int count =i*3+j;
+                ints[j]=nums[count];
+            }
+            arr[count1]=ints;
+            count1++;
+        }
+
+        for (int i = 0; i < arr.length; i++) {
+            int[] array=arr[i];
+            if (array[2]-array[0]>k){
+                return new int[0][];
+            }
+        }
+        return arr;
+    }
+
 
     @Test
     public void test() {
-        int[] arr = {31, 12, 21, 24};
-        double v = Math.pow((Math.pow(arr[0], arr[1]) % 10), arr[2]) % arr[3];
-        System.out.println(v);
+        int[] arr={1,3,4,8,7,9,3,5,1};
+        divideArray(arr,2);
     }
 }
