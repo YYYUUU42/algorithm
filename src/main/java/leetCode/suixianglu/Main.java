@@ -86,7 +86,6 @@ public class Main {
             for (int i = l; i < r; i++) {
                 arr[top][i] = num++;
             }
-            -
 
             if (num >= n * n) {
                 break;
@@ -211,13 +210,13 @@ public class Main {
         int[] arr = new int[2];
 
         for (int i = 0; i < nums.length; i++) {
-            if (map.containsKey(target-nums[i])){
-                arr[0]=map.get(target - nums[i]);
-                arr[1]=i;
+            if (map.containsKey(target - nums[i])) {
+                arr[0] = map.get(target - nums[i]);
+                arr[1] = i;
                 return arr;
 
             }
-            map.put(nums[i],i);
+            map.put(nums[i], i);
         }
 
         return arr;
@@ -225,21 +224,21 @@ public class Main {
 
 
     public int fourSumCount(int[] nums1, int[] nums2, int[] nums3, int[] nums4) {
-        int n=nums1.length;
-        int res=0;
+        int n = nums1.length;
+        int res = 0;
         Map<Integer, Integer> map = new HashMap<>();
 
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
-                int sum=nums1[i]+nums2[j];
+                int sum = nums1[i] + nums2[j];
                 map.put(sum, map.getOrDefault(sum, 0) + 1);
             }
         }
 
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
-                int tmp= -(nums3[i] = nums4[j]);
-                res+=map.getOrDefault(tmp,0);
+                int tmp = -(nums3[i] = nums4[j]);
+                res += map.getOrDefault(tmp, 0);
             }
         }
 
@@ -250,17 +249,68 @@ public class Main {
     public boolean canConstruct(String ransomNote, String magazine) {
         int[] arr = new int[26];
         for (int i = 0; i < magazine.length(); i++) {
-            arr[magazine.charAt(i)-'a']++;
+            arr[magazine.charAt(i) - 'a']++;
         }
 
         for (int i = 0; i < ransomNote.length(); i++) {
-            if (--arr[ransomNote.charAt(i)-'a']<0){
+            if (--arr[ransomNote.charAt(i) - 'a'] < 0) {
                 return false;
             }
         }
         return true;
     }
 
+    public List<List<Integer>> threeSum(int[] nums) {
+        List<List<Integer>> res = new ArrayList<>();
+        Arrays.sort(nums);
+
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] > 0) {
+                break;
+            }
+
+            if (i >= 1 && nums[i] == nums[i - 1]) {
+                continue;
+            }
+
+            int l = i + 1;
+            int r = nums.length - 1;
+
+            while (l < r) {
+                int sum = nums[i] + nums[l] + nums[r];
+                if (sum > 0) {
+                    r--;
+                } else if (sum < 0) {
+                    l++;
+                } else {
+                    res.add(Arrays.asList(nums[i], nums[l], nums[r]));
+                    while (l < r && nums[r] == nums[r - 1]) {
+                        r--;
+                    }
+                    while (l < r && nums[l] == nums[l + 1]) {
+                        l++;
+                    }
+                }
+                l++;
+                r--;
+            }
+        }
+
+        return res;
+    }
+
+    public void reverseString(char[] s) {
+        int l = 0;
+        int r = s.length - 1;
+
+        while (l < r) {
+            char ch = s[l];
+            s[l] = s[r];
+            s[r] = ch;
+            l++;
+            r--;
+        }
+    }
 
 
     @Test

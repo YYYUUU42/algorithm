@@ -255,6 +255,8 @@ public class Main {
         return r;
     }
 
+
+
     public boolean isAcronym(List<String> words, String s) {
         String str = "";
         for (String word : words) {
