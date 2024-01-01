@@ -187,6 +187,112 @@ public class Main {
         return res;
     }
 
+
+    public boolean hasTrailingZeros(int[] nums) {
+        int count = 0;
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] % 2 == 0) {
+                count++;
+            }
+
+            if (count >= 2) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public int[] runningSum(int[] nums) {
+        int[] arr = new int[nums.length];
+        arr[0] = nums[0];
+        for (int i = 1; i < nums.length; i++) {
+            arr[i] = arr[i - 1] + nums[i];
+        }
+
+        return arr;
+    }
+
+    public String defangIPaddr(String address) {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        for (int i = 0; i < address.length(); i++) {
+            if (address.charAt(i) != '.') {
+                stringBuilder.append(address.charAt(i));
+            } else {
+                stringBuilder.append("[.]");
+            }
+        }
+
+        return stringBuilder.toString();
+    }
+
+    public int findLucky(int[] arr) {
+        Map<Integer, Integer> map = new HashMap<>();
+        int max = -1;
+
+        for (int i = 0; i < arr.length; i++) {
+            map.put(arr[i], map.getOrDefault(arr[i], 0) + 1);
+        }
+
+        for (int key : map.keySet()) {
+            if (key == map.get(key) && key > max) {
+                max = key;
+            }
+        }
+
+        return max;
+    }
+
+    public int[] shuffle(int[] nums, int n) {
+        int[] arr = new int[nums.length];
+        int l = 0, r = n;
+        for (int i = 0; i < nums.length; i++) {
+            if (i % 2 == 0) {
+                arr[i] = nums[l++];
+            } else {
+                arr[i] = nums[r++];
+            }
+        }
+
+        return arr;
+    }
+
+    public int maxProduct(int[] nums) {
+        int len = nums.length - 1;
+        Arrays.sort(nums);
+        return (nums[len] - 1) * (nums[len - 1] - 1);
+    }
+
+
+    public int isPrefixOfWord(String sentence, String searchWord) {
+        String[] split = sentence.split(" ");
+
+        for (int i = 0; i < split.length; i++) {
+            String s = split[i];
+            if (s.length() < searchWord.length()) {
+                continue;
+            }
+
+            if (s.substring(0, searchWord.length()).equals(searchWord)) {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
+    public int busyStudent(int[] startTime, int[] endTime, int queryTime) {
+        int count = 0;
+        for (int i = 0; i < startTime.length; i++) {
+            if (startTime[i] <= queryTime && endTime[i] >= queryTime) {
+                count++;
+            }
+        }
+
+        return count;
+    }
+
     public double myPow(double x, int n) {
         long N = n;
         return N >= 0 ? myPow1(x, n) : 1.0 / myPow1(x, -n);
@@ -272,21 +378,21 @@ public class Main {
         Arrays.sort(nums);
         int n = nums.length / 3;
         int[][] arr = new int[n][3];
-        int count1=0;
+        int count1 = 0;
 
         for (int i = 0; i < n; i++) {
             int[] ints = new int[3];
             for (int j = 0; j < 3; j++) {
-                int count =i*3+j;
-                ints[j]=nums[count];
+                int count = i * 3 + j;
+                ints[j] = nums[count];
             }
-            arr[count1]=ints;
+            arr[count1] = ints;
             count1++;
         }
 
         for (int i = 0; i < arr.length; i++) {
-            int[] array=arr[i];
-            if (array[2]-array[0]>k){
+            int[] array = arr[i];
+            if (array[2] - array[0] > k) {
                 return new int[0][];
             }
         }
@@ -296,7 +402,7 @@ public class Main {
 
     @Test
     public void test() {
-        int[] arr={1,3,4,8,7,9,3,5,1};
-        divideArray(arr,2);
+        int[] arr = {1, 3, 4, 8, 7, 9, 3, 5, 1};
+        divideArray(arr, 2);
     }
 }

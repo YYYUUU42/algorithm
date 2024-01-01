@@ -41,6 +41,7 @@ public class Main {
 
     /**
      * 1404
+     *
      * @param students
      * @param sandwiches
      * @return
@@ -52,17 +53,44 @@ public class Main {
         }
 
         for (int i = 0; i < sandwiches.length; i++) {
-            if (--arr[sandwiches[i]]==-1){
-                return sandwiches.length-i;
+            if (--arr[sandwiches[i]] == -1) {
+                return sandwiches.length - i;
             }
         }
         return 0;
     }
 
+    public String smallestString(String s) {
+        char[] arr = s.toCharArray();
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] != 'a') {
+                for (; i < arr.length && arr[i] != 'a'; i++) {
+                    arr[i]--;
+                }
+                return new String(arr);
+            }
+        }
+        arr[arr.length - 1] = 'z';
+
+        return new String(arr);
+    }
+
+    public int maxCoins(int[] piles) {
+        Arrays.sort(piles);
+        int l = 0, r = piles.length - 1, res = 0;
+        while (l < r) {
+            res += piles[r - 1];
+            r -= 2;
+            l++;
+        }
+
+        return res;
+    }
+
     @Test
-    public void test(){
-        int[] arr={1,2,3,4};
-        rangeSum(arr,4,1,5);
+    public void test() {
+        int[] arr = {1, 2, 3, 4};
+        rangeSum(arr, 4, 1, 5);
     }
 }
 

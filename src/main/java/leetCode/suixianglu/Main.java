@@ -312,6 +312,42 @@ public class Main {
         }
     }
 
+    public String reverseStr(String s, int k) {
+        char[] ch = s.toCharArray();
+        for (int i = 0; i < s.length(); i += 2 * k) {
+            int start = i;
+            int end = Math.min(start + k - 1, ch.length - 1);
+
+            while (start < end) {
+                char temp = ch[start];
+                ch[start] = ch[end];
+                ch[end] = temp;
+                start++;
+                end--;
+            }
+        }
+        String res = new String(ch);
+
+        return res;
+    }
+
+
+    public int largestSumAfterKNegations(int[] nums, int k) {
+        int sum = 0;
+        Arrays.sort(nums);
+
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] < 0 && k > 0) {
+                nums[i] = -nums[i];
+                k--;
+            }
+            sum += nums[i];
+        }
+
+        Arrays.sort(nums);
+        return sum - (k % 2 == 0 ? 0 : nums[0] * 2);
+    }
+
 
     @Test
     public void test() {
