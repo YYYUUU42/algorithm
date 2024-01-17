@@ -399,10 +399,131 @@ public class Main {
         return arr;
     }
 
+    public int areaOfMaxDiagonal(int[][] dimensions) {
+        int res = -1;
+        double lenMax = -1;
+
+        Map<Double, List<Integer>> map = new HashMap<>();
+
+        for (int i = 0; i < dimensions.length; i++) {
+            int x = dimensions[i][0];
+            int y = dimensions[i][1];
+            double len = Math.sqrt(x * x + y * y);
+            List<Integer> list = map.getOrDefault(len, new ArrayList<>());
+            list.add(x * y);
+            map.put(len, list);
+        }
+
+        for (double key : map.keySet()) {
+            if (key > lenMax) {
+                lenMax = key;
+            }
+        }
+
+        List<Integer> list = map.get(lenMax);
+        for (Integer integer : list) {
+            if (integer > res) {
+                res = integer;
+            }
+        }
+
+
+        return res;
+    }
+
+    public int maxFrequencyElements(int[] nums) {
+        int max = -1;
+        int[] arr = new int[101];
+        for (int i = 0; i < nums.length; i++) {
+            arr[nums[i]]++;
+        }
+        int res = 0;
+
+        for (int i = 0; i < arr.length; i++) {
+            max = Math.max(max, arr[i]);
+        }
+
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] == max) {
+                res += arr[i];
+            }
+        }
+
+        return res;
+    }
+
+    public List<Integer> beautifulIndices(String s, String a, String b, int k) {
+        List<Integer> aList = new ArrayList<>();
+        List<Integer> bList = new ArrayList<>();
+        List<Integer> res = new ArrayList<>();
+
+        for (int i = 0; i <= s.length() - a.length(); i++) {
+            String sub = s.substring(i, i + a.length());
+            if (sub.equals(a)) {
+                aList.add(i);
+            }
+        }
+
+        for (int i = 0; i <= s.length() - b.length(); i++) {
+            String sub = s.substring(i, i + b.length());
+            if (sub.equals(b)) {
+                bList.add(i);
+            }
+        }
+
+        for (int i = 0; i < aList.size(); i++) {
+            for (int j = 0; j < bList.size(); j++) {
+                int num = Math.abs(aList.get(i) - bList.get(j));
+                if (num <= k) {
+                    res.add(aList.get(i));
+                    break;
+                }
+            }
+        }
+
+        return res;
+    }
+
+    public long findMaximumNumber(long k, int x) {
+        long count = 0;
+        int n = 1;
+        while (true) {
+            count += getBinary(n, x);
+
+            if (count>k){
+                break;
+            }
+            n++;
+        }
+
+        return n;
+    }
+
+    public int getBinary(int num, int x) {
+        if (num < x) {
+            return 0;
+        }
+
+        String res = "";
+        while (num > 0) {
+            int n = num % 2;
+            num /= 2;
+            res = res + String.valueOf(n);
+        }
+
+        int sum = 0;
+        for (int i = 1; i <= res.length(); i++) {
+            if (i % x == 0) {
+                String sub = res.substring(i - 1, i);
+                sum += Integer.valueOf(sub);
+            }
+        }
+
+        return sum;
+    }
+
 
     @Test
     public void test() {
-        int[] arr = {1, 3, 4, 8, 7, 9, 3, 5, 1};
-        divideArray(arr, 2);
     }
 }

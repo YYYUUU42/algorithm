@@ -87,6 +87,81 @@ public class Main {
         return res;
     }
 
+    public int maximumNumberOfStringPairs(String[] words) {
+        int count = 0;
+
+        for (int i = 0; i < words.length; i++) {
+            for (int j = i + 1; j < words.length; j++) {
+                String s = new StringBuilder(words[i]).reverse().toString();
+                if (s.equals(words[i])) {
+                    count++;
+                }
+            }
+        }
+
+        return count;
+    }
+
+    public String oddString(String[] words) {
+        int[] diff0 = getDiffArr(words[0]);
+        int[] diff1 = getDiffArr(words[1]);
+
+        if (Arrays.equals(diff1, diff1)) {
+            for (int i = 2; i < words.length; i++) {
+                if (Arrays.equals(diff0, getDiffArr(words[i]))) {
+                    return words[i];
+                }
+            }
+        }
+
+        return Arrays.equals(diff0, getDiffArr(words[2])) ? words[1] : words[0];
+    }
+
+    public int[] getDiffArr(String s) {
+        int[] arr = new int[s.length() - 1];
+        for (int i = 1; i < s.length(); i++) {
+            arr[i - 1] = s.charAt(i) - s.charAt(i - 1);
+        }
+
+        return arr;
+    }
+
+    public TreeNode removeLeafNodes(TreeNode root, int target) {
+        if (root == null) {
+            return root;
+        }
+        root.left = removeLeafNodes(root.left, target);
+        root.right = removeLeafNodes(root.right, target);
+        if (root.left == null && root.right == null && root.val == target) {
+            return null;
+        }
+        return root;
+    }
+
+    public int countWords(String[] words1, String[] words2) {
+        Map<String, Integer> map1 = new HashMap<>();
+        Map<String, Integer> map2 = new HashMap<>();
+
+        for (String s : words1) {
+            map1.put(s, map1.getOrDefault(s, 0) + 1);
+        }
+
+        for (String s : words2) {
+            map2.put(s, map2.getOrDefault(s, 0) + 1);
+        }
+
+        int count = 0;
+
+        for (String s : words1) {
+            if (map1.get(s) == 1 && map2.getOrDefault(s,0) == 1) {
+                count++;
+            }
+        }
+
+        return count;
+    }
+
+
     @Test
     public void test() {
         int[] arr = {1, 2, 3, 4};

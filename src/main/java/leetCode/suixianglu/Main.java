@@ -349,6 +349,23 @@ public class Main {
     }
 
 
+    public int[] dailyTemperatures(int[] temperatures) {
+        int[] arr = new int[temperatures.length];
+
+        Deque<Integer> stack = new LinkedList<>();
+        for (int i = 0; i < temperatures.length; i++) {
+            int temp = temperatures[i];
+            while (!stack.isEmpty() && temp > temperatures[stack.peek()]) {
+                int index = stack.pop();
+                arr[index] = i - index;
+            }
+            stack.push(i);
+        }
+
+        return arr;
+    }
+
+
     @Test
     public void test() {
         int[] arr = {2, 3, 1, 2, 4, 3};

@@ -341,9 +341,147 @@ public class Main {
         return ans;
     }
 
+    public ListNode removeNodes(ListNode head) {
+        if (head == null) {
+            return null;
+        }
+        head.next = removeNodes(head.next);
+        if (head.next != null && head.val < head.next.val) {
+            return head.next;
+        } else {
+            return head;
+        }
+    }
+
+
+    public ListNode insertGreatestCommonDivisors(ListNode head) {
+        ListNode cur = head;
+        ListNode temp = null;
+        while (cur.next != null) {
+            ListNode node = new ListNode(getMaxCommonDivisor(cur.val, cur.next.val));
+            temp = cur.next;
+            cur.next = node;
+            node.next = temp;
+            cur = temp;
+        }
+
+        return cur;
+    }
+
+    public int getMaxCommonDivisor(int x, int y) {
+        int min = Math.min(x, y);
+        for (int i = min; i < 1; i--) {
+            if (x % i == 0 && y % i == 0) {
+                return i;
+            }
+        }
+
+        return 1;
+    }
+
+
+    public int minExtraChar(String s, String[] dictionary) {
+        Map<String, Integer> map = new HashMap<>();
+        for (String str : dictionary) {
+            map.put(str, map.getOrDefault(str, 0) + 1);
+        }
+
+        int[] dp = new int[s.length() + 1];
+        Arrays.fill(dp, Integer.MAX_VALUE);
+        dp[0] = 0;
+
+        for (int i = 1; i < s.length(); i++) {
+            dp[i] = dp[i - 1] + 1;
+
+            //向前遍历
+            for (int j = i - 1; j >= 0; j--) {
+                if (map.containsKey(s.substring(j, i))) {
+                    dp[i] = Math.min(dp[i], dp[j]);
+                }
+            }
+        }
+
+        return dp[s.length()];
+    }
+
+    public int minLength(String s) {
+        while (s.contains("AB") || s.contains("CD")) {
+            s = s.replaceAll("A", "");
+            s = s.replaceAll("C", "");
+        }
+
+        return s.length();
+    }
+
+    public String repeatLimitedString(String s, int repeatLimit) {
+        int[] arr = new int[26];
+        for (int i = 0; i < s.length(); i++) {
+            arr[s.charAt(i) - 'a']++;
+        }
+
+        //记录是否超repeatLimit
+        int count = 0;
+        StringBuilder builder = new StringBuilder();
+
+        for (int i = 26 - 1, j = 26 - 2; i >= 0 && j >= 0; ) {
+            if (arr[i] == 0) {
+                i--;
+                count = 0;
+            } else if (count < repeatLimit) {
+                arr[i]--;
+                builder.append((char) ('a' + i));
+                count++;
+            } else if (j >= i || arr[j] == 0) {
+                j--;
+            } else {
+                arr[j]--;
+                builder.append((char) ('a' + j));
+                count = 0;
+            }
+        }
+
+        return builder.toString();
+    }
+
+    public ListNode deleteDuplicates(ListNode head) {
+        ListNode cur = head;
+
+        while (cur != null && cur.next != null) {
+            if (cur.val == cur.next.val) {
+                cur.next = cur.next.next;
+            } else {
+                cur = cur.next;
+            }
+        }
+
+        return head;
+    }
+
+    public ListNode deleteDuplicates1(ListNode head) {
+        if (head == null) {
+            return null;
+        }
+
+        ListNode dummy = new ListNode(0, head);
+        ListNode cur = dummy;
+        while (cur.next != null && cur.next.next != null) {
+            if (cur.next.val == cur.next.next.val) {
+                int num = cur.next.val;
+                while (cur.next != null && cur.next.val == num) {
+                    cur.next = cur.next.next;
+                }
+            } else {
+                cur = cur.next;
+            }
+        }
+
+        return dummy.next;
+    }
+
     @Test
     public void test() {
-        closeStrings("abc", "bca");
+        String s = "ABFCACDB";
+        minLength(s);
     }
 }
 
